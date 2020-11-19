@@ -98,7 +98,7 @@ body
   padding:0px 12px;
   border:0px dotted red;
 }
-.grid-next-days-table
+.grid-weather-forecast-table
 {
   display: grid;
   width:240px;
@@ -106,28 +106,28 @@ body
   grid-template-columns: 1fr 1fr 30px;
   font-weight: bold;
 }
-.grid-next-days-table div:nth-child(3n+2)
+.grid-weather-forecast-table div:nth-child(3n+2)
 {
   color:#BCC1CB;
 }
-.grid-next-days-table div:nth-child(3n+3)
+.grid-weather-forecast-table div:nth-child(3n+3)
 {
 
   justify-self: end;
 }
-.grid-next-days-table > div
+.grid-weather-forecast-table > div
 {
   margin-bottom: 20px;
   border:0px dotted red;
 }
-.grid-next-days-table div i
+.grid-weather-forecast-table div i
 {
   font-size: 14px;
   padding-right: 2px;
 }
 /* Grid Areas End */
 
-.next-days-title
+.weather-forecast-title
 {
   width: 240px;
   margin: 0 auto;
@@ -135,6 +135,7 @@ body
   color: #232D42;
   font-size: 18px;
   margin-bottom: 22px;
+  text-transform: uppercase;
 }
 .wind-block
 {

@@ -38,13 +38,13 @@
         <i class="fas fa-history"></i>
       </div>
 
-      <div class="next-days-title">
-        NEXT 5 DAYS
+      <div class="weather-forecast-title">
+        Weather forecast
       </div>
 
-      <div class="grid-next-days-table">
+      <div class="grid-weather-forecast-table">
         {% for fr in forecast %}
-            <div>{{ fr.day }}</div>
+            <div>{{ fr.time }}</div>
             <div>{{ fr.weather }}</div>
             <div>{{ fr.temp }}°</div>
         {% endfor %}

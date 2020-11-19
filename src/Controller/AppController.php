@@ -10,25 +10,28 @@ class AppController extends AbstractController
 {
     public function index()
     {
-      [$jsonForecast, $jsonTodayWeather] = $this->getApiWeatherData('Kaliningrad');
+      [$jsonForecast, $jsonTodayWeather] = $this->getApiWeatherData();
+
       return $this->render('index.html.twig', [
-        'forecast' => $this->getForecast($jsonForecast),
+        'forecast' => $this->getForecast(5, $jsonForecast),
         'today' => $this->getTodayWeather($jsonTodayWeather),
       ]);
     }
 
-    public function getApiWeatherData($city)
+    public function getApiWeatherData()
     {
+      $city = 'Kaliningrad';
+      $lat = '54.7065';
+      $lon = '20.511';
       $apiKey = 'f10a04d59afa3b8b7512273ddeec75d1';
 
       $ch1 = curl_init();
       $ch2 = curl_init();
 
-      curl_setopt($ch1, CURLOPT_URL, "https://api.openweathermap.org/data/2.5/forecast?q=".$city."&lang=en&units=metric&appid=".$apiKey);
+      curl_setopt($ch1, CURLOPT_URL, "https://api.openweathermap.org/data/2.5/onecall?lat=".$lat."&lon=".$lon."&lang=en&units=metric&exclude=minutely&appid=".$apiKey);
       curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch2, CURLOPT_URL, "http://api.openweathermap.org/data/2.5/weather?q=".$city."&lang=en&units=metric&appid=".$apiKey);
       curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-
 
       $mh = curl_multi_init();
 
@@ -51,33 +54,28 @@ class AppController extends AbstractController
       return [$forecast, $today];
     }
 
-    public function getForecast($jsonForecast)
+    public function getForecast($hours, $jsonForecast)
     {
 
       $data = [];
 
-      for ($i = 1; $i <= 38; $i++) {
-        // Получение времени
-        $timefor = explode(" ", $jsonForecast->list[$i]->dt_txt);
+      for ($i = 1; $i <= $hours+2; $i++) {
 
-        // Находим нужное время
-        if ($timefor[1] == '12:00:00') {
-          $daybyunix = gmdate("l", $jsonForecast->list[$i]->dt); // Получение и конвектирование дня недели с Unix
-          $tempint = intval($jsonForecast->list[$i]->main->temp); // Получение и конвектирование температуры
+          $timebyunix = gmdate('H:i', $jsonForecast->hourly[$i]->dt); // Получение и конвектирование дня недели с Unix
+          $tempint = intval($jsonForecast->hourly[$i]->temp); // Получение и конвектирование температуры
 
           $format = [];
 
           $format = [
-              "day" => $daybyunix,
-              "weather" => $jsonForecast->list[$i]->weather[0]->main,
-              "temp" => $tempint
+              "time" => $timebyunix,
+              "weather" => $jsonForecast->hourly[$i]->weather[0]->main,
+              "temp" => $tempint,
           ];
 
           $data[] = $format;
-
-        }
-
       }
+
+      unset($data[0], $data[1]);
 
       return $data;
     }
@@ -105,6 +103,5 @@ class AppController extends AbstractController
       return $current;
 
     }
-
 
 }
