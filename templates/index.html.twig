@@ -1,1 +1,55 @@
-index page
+{% extends 'base.html.twig' %}
+
+{% block title %}Прогноз погоды{% endblock %}
+
+{% block body %}
+
+<div class="main-box">
+
+      <div class="city-time-info">
+        {{ today.city }}<span>{{ today.time }}</span>
+      </div>
+
+      <div class="grid-temp-table">
+        <div><i class="fas fa-sun"></i></div>
+        <div>{{ today.temp }}</div>
+        <div>{{ today.weather }}</div>
+      </div>
+
+      <div class="grid-info-table">
+        <div>
+          <i class="fas fa-wind wind-ico"></i>
+          <div class="wind-block">
+            Wind<br>
+            <span>{{ today.wind }} km/h</span>
+          </div>
+        </div>
+        <div>
+          <i class="fas fa-tint humidity-ico"></i>
+          <div class="humidity-block">
+            Humidity<br>
+            <span>{{ today.humidity }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="view-weather-history-block">
+        View<br><b>weather history</b>
+        <i class="fas fa-history"></i>
+      </div>
+
+      <div class="next-days-title">
+        NEXT 5 DAYS
+      </div>
+
+      <div class="grid-next-days-table">
+        {% for fr in forecast %}
+            <div>{{ fr.day }}</div>
+            <div>{{ fr.weather }}</div>
+            <div>{{ fr.temp }}°</div>
+        {% endfor %}
+      </div>
+
+    </div>
+
+{% endblock %}
