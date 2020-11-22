@@ -1,5 +1,7 @@
 # weather app
 
+![alt text](weather.png "weather app")
+
 1. Клонируйте данный репозиторий
 2. В папке репозитория выполните
 
