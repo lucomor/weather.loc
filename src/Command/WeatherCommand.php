@@ -30,17 +30,9 @@ class WeatherCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-      $output->writeln([
-        'cron init',
-        '',
-      ]);
-
-      $this->weather->addWeather();
-
-      $output->writeln([
-        '',
-        '<info>:)</info>',
-      ]);
+      $output->write('start cron ... ');
+      $this->weather->save();
+      $output->write(' ... <info>done</info>');
 
       return Command::SUCCESS;
     }

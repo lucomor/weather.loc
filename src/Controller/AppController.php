@@ -21,12 +21,11 @@ class AppController extends AbstractController
 
     public function index()
     {
-
-      [$later, $now] = $this->weather->getAPI();
+      $owm = $this->weather->getOpenWeatherMap();
 
       return $this->render('index.html.twig', [
-        'later' => $this->weather->getLater(5, $later),
-        'now' => $this->weather->getNow($now),
+        'forecast' => $this->weather->forecast(5, $owm),
+        'current' => $this->weather->current($owm),
       ]);
     }
 
@@ -37,26 +36,25 @@ class AppController extends AbstractController
     {
       $history = $this->getDoctrine()
           ->getRepository(History::class)
-          ->findBy([], ['id' => 'ASC'],5);
+          ->findBy([], ['id' => 'DESC'], 10);
 
       return $this->render('history.html.twig', [
             'history' => $history,
       ]);
-
     }
 
-    // Метод вызывается консольной командой cron:weather
+    // console cron:weather method
     // Добавляет данные о погоде (Время, Погодные условия, Температура) в базу данных
-    public function addWeather()
+    public function save()
     {
 
-      [$later, $now] = $this->weather->getAPI();
+      $forecast = $this->weather->getOpenWeatherMap();
 
-      $weather = $now->weather[0]->main;
-      $time = date('d.m - H:i');
-      $temp = intval($now->main->temp);
+      $time = date('H:i', $forecast->current->dt);
+      $weather = $forecast->current->weather[0]->main;
+      $temp = intval($forecast->current->temp);
 
-      echo 'Time: ' . $time . ' ; Weather: ' . $weather . ' ; Temp (c): ' . $temp;
+      echo 'Time ' . $time . ', weather ' . $weather . ', temp (c) ' . $temp;
 
       $entityManager = $this->getDoctrine()->getManager();
 

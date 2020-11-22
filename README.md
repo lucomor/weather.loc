@@ -1,9 +1,12 @@
 # weather app
 
-1. As .ENV 
+1. Настройте подключение к БД в файле .ENV
+2. Выполните команды для создания БД и таблиц
 
-2. Create database
 `php bin/console doctrine:database:create`
 
-3. Create table
 `php bin/console doctrine:migrations:migrate`
+
+3. Укажите ключ API OpenWeatherMap а так же Координаты (lat, lon) города в
+
+`src/Service/Weather.php getOpenWeatherMap`
