@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}История погоды{% endblock %}
+
+{% block body %}
+
+<div class="main-box">
+
+      <div class="view-weather-history-back-block">
+        <a href="/"></a>
+        View<br><b>weather forecast</b>
+        <i class="fas fa-cloud"></i>
+      </div>
+
+      <div class="weather-forecast-title">
+        Weather history
+      </div>
+
+      <div class="grid-weather-forecast-table">
+        {% for hs in history %}
+            <div>{{ hs.time }}</div>
+            <div>{{ hs.weather }}</div>
+            <div>{{ hs.temp }}°</div>
+        {% endfor %}
+      </div>
+
+    </div>
+
+{% endblock %}
